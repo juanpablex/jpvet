@@ -1,0 +1,355 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package vista;
+
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import model.Mpersona;
+import model.Mproducto;
+import model.Mtipoproducto;
+import model.auxiliar;
+
+/**
+ *
+ * @author ColaVirtual
+ */
+public class Vproducto extends javax.swing.JFrame {
+
+    /**
+     * Creates new form Vproducto
+     */
+    public Mproducto mproducto;
+    public Mtipoproducto mtipo;
+    public Vproducto(Mproducto p) {
+        initComponents();
+        this.mproducto=p;
+        this.mtipo=new Mtipoproducto();
+        cbtipo.setModel(mtipo.getCombo());
+        this.mtipo=(Mtipoproducto)cbtipo.getSelectedItem();
+        this.setTitle("Jp Vet - Producto");
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        setDefaultCloseOperation(Vproducto.DISPOSE_ON_CLOSE);
+        this.setExtendedState(Vproducto.MAXIMIZED_BOTH);
+    }
+    public void setTipo(){
+        this.mtipo=(Mtipoproducto)cbtipo.getSelectedItem();
+        this.mproducto.setIdtipo(this.mtipo.getId());
+       
+    }
+    public void actualizar(){
+        txtid.setVisible(false);
+        txtcod.setVisible(false);
+        txtnombre.setText("");
+        txtdesc.setText("");
+        txtprecio.setText("");
+        jTable1.setModel(getModel(this.mproducto.listar()));
+        TableColumnModel tc=jTable1.getColumnModel();
+        tc.getColumn(1).setPreferredWidth(30);
+        tc.getColumn(2).setPreferredWidth(200);
+        jTable1.getColumnModel().getColumn(3).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(3).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(0);
+        tc.getColumn(4).setPreferredWidth(50);
+        tc.getColumn(5).setPreferredWidth(100);
+        jTable1.setAutoCreateRowSorter(true);
+        lbUsuario.setText(auxiliar.nick);
+        
+    }
+public DefaultTableModel getModel(ArrayList<Mproducto> lista){
+        String[] titulos = {"id", "codigo", "producto", "descripcion",
+            "precio","tipo producto"};
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos){
+            @Override
+             public boolean isCellEditable(int row, int column) {
+             return false;
+        }
+        };
+       
+        Object[] fila = new Object[6];
+        for (Mproducto p : lista) {
+            fila[0] = p.getId();
+            fila[1] = p.getCodigo();
+            fila[2] = p.getNombre();
+            fila[3]=p.getDescripcion();
+            fila[4]=p.getPrecio();
+            fila[5]=mtipo.getTipoXid(p.getIdtipo());
+           
+            
+            //System.out.println(generoM.generoById(p.getGen()));
+            modelo.addRow(fila);
+        }
+        return modelo;
+    }
+    public void getData(Integer fila){
+        if(fila==-1)
+            return;
+        txtdesc.setText("");
+        int id=Integer.parseInt(jTable1.getValueAt(fila, 0).toString());
+        String codigo=(String)jTable1.getValueAt(fila, 1);
+        String nombre=(String)jTable1.getValueAt(fila, 2);
+        String desc=(String)jTable1.getValueAt(fila, 3);
+        double precio=Double.parseDouble(jTable1.getValueAt(fila, 4).toString());
+        Mtipoproducto mtipo=(Mtipoproducto)jTable1.getValueAt(fila, 5);
+        this.mproducto.setId(id);
+        this.mproducto.setCodigo(codigo);
+        this.mproducto.setNombre(nombre);
+        this.mproducto.setDescripcion(desc);
+        this.mproducto.setPrecio(precio);
+        this.mproducto.setIdtipo(mtipo.getId());
+        txtid.setText(String.valueOf(this.mproducto.getId()));
+        txtdesc.append(this.mproducto.getDescripcion());
+        txtcod.setText(this.mproducto.getCodigo());
+        txtnombre.setText(this.mproducto.getNombre());
+        txtprecio.setText(String.valueOf(this.mproducto.getPrecio()));
+        cbtipo.setSelectedIndex(mtipo.posCombo2(cbtipo.getModel()));
+        //setTipo();
+    }
+    public String generarCodigo(Mtipoproducto tipo){
+       int l=tipo.getDescripcion().length();
+       int num=tipo.getId();
+       int digitos=0;
+        while (num!=0)
+        {
+            num=num/10;
+            digitos++;
+        }
+        int canProd=mproducto.cantProductoXtipo(tipo.getId())+1;
+       if(l==1)
+           return String.valueOf(tipo.getId())+tipo.getDescripcion()+"__"+String.valueOf(canProd);
+       if(l==2)
+           return String.valueOf(tipo.getId())+tipo.getDescripcion()+"_"+String.valueOf(canProd);
+       return String.valueOf(tipo.getId())+tipo.getDescripcion().substring(0, 3).toLowerCase()+String.valueOf(canProd);
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        cbtipo = new javax.swing.JComboBox<>();
+        txtnombre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtdesc = new javax.swing.JTextArea();
+        jLabel5 = new javax.swing.JLabel();
+        txtprecio = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        txtid = new javax.swing.JTextField();
+        txtcod = new javax.swing.JTextField();
+        btRegistrar = new javax.swing.JButton();
+        btModificar = new javax.swing.JButton();
+        btBuscar = new javax.swing.JButton();
+        btEliminar = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        lbUsuario = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("REGISTRAR PRODUCTO");
+
+        jLabel2.setText("producto:");
+
+        jLabel3.setText("tipo:");
+
+        jLabel4.setText("descripcion:");
+
+        txtdesc.setColumns(20);
+        txtdesc.setRows(5);
+        jScrollPane1.setViewportView(txtdesc);
+
+        jLabel5.setText("precio:");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        jLabel6.setText("productos:");
+
+        btRegistrar.setText("registrar");
+
+        btModificar.setText("modificar");
+        btModificar.setEnabled(false);
+
+        btBuscar.setText("buscar");
+
+        btEliminar.setText("eliminar");
+        btEliminar.setEnabled(false);
+
+        jLabel7.setText("Usuario:");
+
+        lbUsuario.setText("invitado");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 805, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cbtipo, 0, 256, Short.MAX_VALUE)
+                                    .addComponent(txtnombre)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(19, 19, 19)
+                                        .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(14, 14, 14)
+                                        .addComponent(txtcod, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel7))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(btRegistrar)
+                        .addGap(26, 26, 26)
+                        .addComponent(btModificar)
+                        .addGap(34, 34, 34)
+                        .addComponent(btBuscar)
+                        .addGap(28, 28, 28)
+                        .addComponent(btEliminar)))
+                .addContainerGap(76, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel7)
+                    .addComponent(lbUsuario))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(cbtipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtcod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btRegistrar)
+                    .addComponent(btModificar)
+                    .addComponent(btBuscar)
+                    .addComponent(btEliminar))
+                .addGap(33, 33, 33)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * @param args the command line arguments
+     */
+   // public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+     /*   try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Vproducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Vproducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Vproducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Vproducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }*/
+        //</editor-fold>
+
+        /* Create and display the form */
+       /* java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Vproducto().setVisible(true);
+            }
+        });*/
+   // }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btBuscar;
+    public javax.swing.JButton btEliminar;
+    public javax.swing.JButton btModificar;
+    public javax.swing.JButton btRegistrar;
+    public javax.swing.JComboBox<String> cbtipo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JTable jTable1;
+    public javax.swing.JLabel lbUsuario;
+    public javax.swing.JTextField txtcod;
+    public javax.swing.JTextArea txtdesc;
+    public javax.swing.JTextField txtid;
+    public javax.swing.JTextField txtnombre;
+    public javax.swing.JTextField txtprecio;
+    // End of variables declaration//GEN-END:variables
+}
