@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import model.Manimal;
 import model.Mraza;
+import model.auxiliar;
 
 /**
  *
@@ -53,6 +54,7 @@ public class Vraza extends javax.swing.JFrame {
         tc.getColumn(4).setPreferredWidth(10);
         tc.getColumn(5).setPreferredWidth(20);
         jTable1.setAutoCreateRowSorter(true);
+        jLabel3.setText(auxiliar.nick);
     }
 
     public DefaultTableModel getModel(ArrayList<Mraza> lista) {

@@ -291,6 +291,11 @@ public class Vpersona extends javax.swing.JFrame {
 
         btModificar.setText("modificar");
         btModificar.setEnabled(false);
+        btModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btModificarActionPerformed(evt);
+            }
+        });
 
         btBuscar.setText("buscar");
 
@@ -438,6 +443,10 @@ public class Vpersona extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btModificarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btModificarActionPerformed
 
     /**
      * @param args the command line arguments

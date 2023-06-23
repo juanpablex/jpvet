@@ -145,6 +145,7 @@ public class Cpersona implements ActionListener {
                 this.mpersona.setIdestado(g.getId());
                 this.mpersona.setDireccion(this.vpersona.txtdireccion.getText());
                 this.mpersona.setTelefonos(this.vpersona.txttelefonos.getText());
+                this.mpersona.setEmail(this.vpersona.txtCorreo.getText());
                 this.mpersona.setLatitud("");
                 this.mpersona.setLongitud("");
                 this.mpersona.modificar();
